@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.en_old.Ac;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actions.*;
 import net.serenitybdd.screenplay.ensure.Ensure;
@@ -54,14 +55,35 @@ public class RegistrationStepDefinitions {
 
 @Then("{actor} should have a new account created")
 public void shouldHaveANewAccountCreated(Actor actor) {
-    actor.attemptsTo( Switch.toWindowTitled("Summary"),
-    WaitUntil.the("//strong[contains(text(), 'Nombre')]/parent::p", isVisible()).forNoMoreThan(10)
-            .seconds(),
-    Ensure.that(Target.the("Name element")
-            .locatedBy("//strong[contains(text(), 'Nombre')]/parent::p")).text().containsIgnoringCase(name),
-    Ensure.that(Target.the("Last name element")
-            .locatedBy("//strong[contains(text(), 'Apellido')]/parent::p")).text()
-            .containsIgnoringCase(lastname));
+    actor.attemptsTo(Switch.toWindowTitled("Summary"),
+            WaitUntil.the("//strong[contains(text(), 'Nombre')]/parent::p", isVisible()).forNoMoreThan(10)
+                    .seconds(),
+            Ensure.that(Target.the("Name element")
+                    .locatedBy("//strong[contains(text(), 'Nombre')]/parent::p")).text().containsIgnoringCase(name),
+            Ensure.that(Target.the("Last name element")
+                    .locatedBy("//strong[contains(text(), 'Apellido')]/parent::p")).text()
+                    .containsIgnoringCase(lastname));
 }
 
+@When("{actor} does not send the required information")
+public void doesNotSendTheRequiredInformation(Actor actor) {
+    actor.attemptsTo(WaitUntil.the("//input[@id='name']",
+            isVisible()).forNoMoreThan(10).seconds(),
+            Enter.theValue(name).into("//input[@id='name']"),
+            WaitUntil.the("//input[@id='last-name']", isVisible()).forNoMoreThan(10).seconds(),
+            Enter.theValue(lastname).into("//input[@id='last-name']"),
+            WaitUntil.the("//button[@id='save-btn']", isVisible()).forNoMoreThan(10).seconds(),
+            Click.on("//button[@id='save-btn']"));
+}
+
+@Then("{actor} should be told all fields are required")
+public void shouldBeToldFieldsAreRequired(Actor actor) {
+    actor.attemptsTo(
+            WaitUntil.the(
+                    "// div[@role='alert']", isVisible()).forNoMoreThan(10)
+                    .seconds(),
+            Ensure.that(Target.the("Requires fields alert")
+                    .locatedBy("// div[@role='alert']")).text()
+                    .containsIgnoringCase("Por favor diligencie todos los campos"));
+}
 }
