@@ -3,6 +3,8 @@ package registerserenity.stepdefinitions;
 import java.net.URISyntaxException;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actions.*;
 import net.serenitybdd.screenplay.ensure.Ensure;
@@ -12,19 +14,25 @@ import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisi
 
 public class RegistrationStepDefinitions {
 
-    @Given("{actor} wants to register sign up in the aplication")
-    public void wanstToSignUpInTheApplication(Actor actor) throws URISyntaxException {
+    String name = "Fabian";
+    String lastname = "Guarin";
+    String age = "28";
+    String country = "Colombia";
+    String email = "fabian@email.com";
+    String dayWork = "Lunes";
 
-        String name = "Fabian";
-        String lastname = "Guarin";
-        String age = "28";
-        String country = "Colombia";
-        String email = "fabian@email.com";
-        String dayWork = "Lunes";
+    @Given("{actor} wants to register sign up in the aplication")
+    public void wanstToSignUpInTheApplication(Actor actor) {
 
         actor.attemptsTo(
-                Open.url("http://127.0.0.1:5501/register.html"),
-                WaitUntil.the("//input[@id='name']", isVisible()).forNoMoreThan(10).seconds(),
+                Open.url("http://127.0.0.1:5501/register.html"));
+    }
+
+    @When("{actor} send the required information to sign up")
+    public void sendsRequiredInformationToSignUp(Actor actor) throws URISyntaxException {
+
+        actor.attemptsTo(WaitUntil.the("//input[@id='name']",
+                isVisible()).forNoMoreThan(10).seconds(),
                 Enter.theValue(name).into("//input[@id='name']"),
                 WaitUntil.the("//input[@id='last-name']", isVisible()).forNoMoreThan(10).seconds(),
                 Enter.theValue(lastname).into("//input[@id='last-name']"),
@@ -41,16 +49,19 @@ public class RegistrationStepDefinitions {
                 Upload.theClasspathResource("pictures/OIP.jpg")
                         .to(Target.the("picture field").locatedBy("//input[@id='picture']")),
                 WaitUntil.the("//button[@id='save-btn']", isVisible()).forNoMoreThan(10).seconds(),
-                Click.on("//button[@id='save-btn']"),
-                Switch.toWindowTitled("Summary"),
-                WaitUntil.the("//strong[contains(text(), 'Nombre')]/parent::p", isVisible()).forNoMoreThan(10)
-                        .seconds(),
-                Ensure.that(Target.the("Name element")
-                        .locatedBy("//strong[contains(text(), 'Nombre')]/parent::p")).text().containsIgnoringCase(name),
-                Ensure.that(Target.the("Last name element")
-                        .locatedBy("//strong[contains(text(), 'Apellido')]/parent::p")).text()
-                        .containsIgnoringCase(lastname));
-
+                Click.on("//button[@id='save-btn']"));
     }
+
+@Then("{actor} should have a new account created")
+public void shouldHaveANewAccountCreated(Actor actor) {
+    actor.attemptsTo( Switch.toWindowTitled("Summary"),
+    WaitUntil.the("//strong[contains(text(), 'Nombre')]/parent::p", isVisible()).forNoMoreThan(10)
+            .seconds(),
+    Ensure.that(Target.the("Name element")
+            .locatedBy("//strong[contains(text(), 'Nombre')]/parent::p")).text().containsIgnoringCase(name),
+    Ensure.that(Target.the("Last name element")
+            .locatedBy("//strong[contains(text(), 'Apellido')]/parent::p")).text()
+            .containsIgnoringCase(lastname));
+}
 
 }
