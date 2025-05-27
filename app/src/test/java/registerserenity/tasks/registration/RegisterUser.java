@@ -20,15 +20,13 @@ public class RegisterUser implements Task {
     private final String age;
     private final String country;
     private final String email;
-    private final String dayWork;
 
-    public RegisterUser(String name, String lastname, String age, String country, String email, String dayWork) {
+    public RegisterUser(String name, String lastname, String age, String country, String email) {
         this.name = name;
         this.lastname = lastname;
         this.age = age;
         this.country = country;
         this.email = email;
-        this.dayWork = dayWork;
     }
 
     @Override

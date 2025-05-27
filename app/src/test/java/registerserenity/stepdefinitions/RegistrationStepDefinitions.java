@@ -1,7 +1,9 @@
 package registerserenity.stepdefinitions;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,12 +17,11 @@ import registerserenity.ui.registration.RegisterPage;
 
 public class RegistrationStepDefinitions {
 
-        String name = "Fabian";
-        String lastname = "Guarin";
-        String age = "28";
-        String country = "Colombia";
-        String email = "fabian@email.com";
-        String dayWork = "Lunes";
+        String name = "";
+        String lastName = "";
+        String age = "";
+        String country = "";
+        String email = "";
 
         @Given("{actor} wants to register sign up in the aplication")
         public void wanstToSignUpInTheApplication(Actor actor) {
@@ -30,22 +31,30 @@ public class RegistrationStepDefinitions {
         }
 
         @When("{actor} send the required information to sign up")
-        public void sendsRequiredInformationToSignUp(Actor actor) {
+        public void sendsRequiredInformationToSignUp(Actor actor, DataTable userInfo) {
 
+                List<List<String>> rows = userInfo.asLists(String.class);
+                for (List<String> columns : rows) {
+                        name = columns.get(0);
+                        lastName = columns.get(1);
+                        age = columns.get(2);
+                        country = columns.get(3);
+                        email = columns.get(4);
+                }
                 actor.attemptsTo(
-                                new RegisterUser(name, lastname, age, country, email, dayWork));
+                                new RegisterUser(name, lastName, age, country, email));
         }
 
         @Then("{actor} should have a new account created")
         public void shouldHaveANewAccountCreated(Actor actor) {
                 actor.attemptsTo(
-                                new CheckNewAccountCreated(name, lastname));
+                                new CheckNewAccountCreated(name, lastName));
         }
 
         @When("{actor} does not send the required information")
         public void doesNotSendTheRequiredInformation(Actor actor) {
                 actor.attemptsTo(
-                                new DoNotSendAllRequiredInformation(name, lastname));
+                                new DoNotSendAllRequiredInformation(name, lastName));
         }
 
         @Then("{actor} should be told all fields are required")
