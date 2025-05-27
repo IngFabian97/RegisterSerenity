@@ -14,5 +14,6 @@ public class RegisterForm {
     public static Target INPUT_MONDAY = Target.the("input monday").locatedBy("//input[@id='monday']");
     public static Target INPUT_PICTURE = Target.the("input picture").locatedBy("//input[@id='picture']");
     public static Target BUTTON_SAVE = Target.the("button save").locatedBy("//button[@id='save-btn']");
-
+    public static Target ALERT_ALL_REQUIRED_FIELDS = Target.the("Requires fields alert")
+            .locatedBy("// div[@role='alert']");
 }
