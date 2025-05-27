@@ -11,6 +11,8 @@ import net.serenitybdd.screenplay.actions.*;
 import net.serenitybdd.screenplay.ensure.Ensure;
 import net.serenitybdd.screenplay.targets.Target;
 import net.serenitybdd.screenplay.waits.WaitUntil;
+import registerserenity.tasks.registration.RegisterUser;
+
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 
 public class RegistrationStepDefinitions {
@@ -32,25 +34,9 @@ public class RegistrationStepDefinitions {
     @When("{actor} send the required information to sign up")
     public void sendsRequiredInformationToSignUp(Actor actor) throws URISyntaxException {
 
-        actor.attemptsTo(WaitUntil.the("//input[@id='name']",
-                isVisible()).forNoMoreThan(10).seconds(),
-                Enter.theValue(name).into("//input[@id='name']"),
-                WaitUntil.the("//input[@id='last-name']", isVisible()).forNoMoreThan(10).seconds(),
-                Enter.theValue(lastname).into("//input[@id='last-name']"),
-                WaitUntil.the("//input[@id='age']", isVisible()).forNoMoreThan(10).seconds(),
-                Enter.theValue(age).into("//input[@id='age']"),
-                WaitUntil.the("//select[@id='country']", isVisible()).forNoMoreThan(10).seconds(),
-                SelectFromOptions.byVisibleText(country).from("//select[@id='country']"),
-                WaitUntil.the("//input[@id='sex-m']", isVisible()).forNoMoreThan(10).seconds(),
-                Click.on("//input[@id='sex-m']"),
-                WaitUntil.the("//input[@id='email']", isVisible()).forNoMoreThan(10).seconds(),
-                Enter.theValue(email).into("//input[@id='email']"),
-                WaitUntil.the("//input[@id='monday']", isVisible()).forNoMoreThan(10).seconds(),
-                Click.on("//input[@id='monday']"),
-                Upload.theClasspathResource("pictures/OIP.jpg")
-                        .to(Target.the("picture field").locatedBy("//input[@id='picture']")),
-                WaitUntil.the("//button[@id='save-btn']", isVisible()).forNoMoreThan(10).seconds(),
-                Click.on("//button[@id='save-btn']"));
+            actor.attemptsTo(
+                new RegisterUser(name, lastname, age, country, email, dayWork)
+        );
     }
 
 @Then("{actor} should have a new account created")
