@@ -37,3 +37,6 @@ Thumbs.db
 
 # Archivos de entorno
 .env
+
+# Archivos compilados de Java
+*.class

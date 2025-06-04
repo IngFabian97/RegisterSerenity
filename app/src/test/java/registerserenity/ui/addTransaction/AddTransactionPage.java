@@ -16,6 +16,10 @@ public class AddTransactionPage {
             .located(By.id("description"));
     public static Target BUTTON_SAVE = Target.the("username input")
                     .located(By.xpath("//button[normalize-space()='Guardar']"));
+                    
         public static Target TRANSACTIONS_TABLE = Target.the("transactions table")
-            .locatedBy("//tbody[@id='transactions-list']");
+                        .locatedBy("//tbody[@id='transactions-list']");
+
+        public static String TRANSACTION_TABLE_XPATH = "//tbody[@id='transactions-list']";
+
 }
