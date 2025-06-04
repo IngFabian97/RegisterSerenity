@@ -1,6 +1,5 @@
 package registerserenity.stepdefinitions;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 import io.cucumber.datatable.DataTable;
