@@ -1,3 +1,17 @@
 {
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+
+    "cucumber.features": [
+        "app/src/test/resources/features"
+      ],
+      "cucumber.glue": [
+        "registerserenity.stepdefinitions"
+      ],
+      "java.test.config": [
+        {
+          "name": "Gradle Tests",
+          "workingDirectory": "${workspaceFolder}/app"
+        }
+      ]
 }
+

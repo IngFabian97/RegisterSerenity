@@ -1,6 +1,6 @@
 Feature: Add new transaction
 
-  Scenario: Ad new transaction
+  Scenario: Add new transaction
     Given Fabian is logged into the application
       | user | pass |
     When Fabian enters the required information for the new transaction
